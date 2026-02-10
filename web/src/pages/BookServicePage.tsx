@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Clock, CheckCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -6,9 +6,12 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './BookServicePage.module.css';
 
+// Service types matching the new naming convention
+const SERVICE_TYPES = ['HomamYagam', 'HomePooja', 'PoojaSamagri', 'FamilyConnect'] as const;
+
 // Define the schema for the booking form
 const bookingSchema = z.object({
-    serviceType: z.enum(['Homam', 'Pooja', 'Astrology', 'Vratam']),
+    serviceType: z.enum(SERVICE_TYPES),
     date: z.string().min(1, 'Date is required'),
     time: z.string().min(1, 'Time is required'),
 });
@@ -21,11 +24,11 @@ export default function BookServicePage() {
     const serviceTypeParam = searchParams.get('type');
     const [success, setSuccess] = useState(false);
 
-    // Validate if the param is a valid service type, otherwise default to Homam
+    // Validate if the param is a valid service type, otherwise default to HomamYagam
     const defaultServiceType =
-        serviceTypeParam && ['Homam', 'Pooja', 'Astrology', 'Vratam'].includes(serviceTypeParam)
-            ? (serviceTypeParam as 'Homam' | 'Pooja' | 'Astrology' | 'Vratam')
-            : 'Homam';
+        serviceTypeParam && SERVICE_TYPES.includes(serviceTypeParam as typeof SERVICE_TYPES[number])
+            ? (serviceTypeParam as typeof SERVICE_TYPES[number])
+            : 'HomamYagam';
 
     const {
         register,
@@ -40,7 +43,6 @@ export default function BookServicePage() {
 
     const onSubmit = (data: BookingFormData) => {
         console.log('Booking Data:', data);
-        // In a real app, we would send this data to the backend
         setSuccess(true);
         setTimeout(() => {
             navigate('/dashboard');
@@ -48,11 +50,9 @@ export default function BookServicePage() {
     };
 
     return (
-        <div className={styles.container}>
+        <div className={styles.pageContainer}>
             <div className={styles.card}>
-                <h1 className={styles.title}>
-                    Schedule a Service
-                </h1>
+                <h1 className={styles.title}>Schedule a Service</h1>
 
                 {success ? (
                     <div className={styles.success}>
@@ -64,18 +64,16 @@ export default function BookServicePage() {
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                         {/* Service Type */}
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Select Service
-                            </label>
+                            <label className={styles.label}>Select Service</label>
                             <div className={styles.inputWrapper}>
                                 <select
                                     {...register('serviceType')}
                                     className={styles.select}
                                 >
-                                    <option value="Homam">Homam</option>
-                                    <option value="Pooja">Pooja</option>
-                                    <option value="Astrology">Astrology</option>
-                                    <option value="Vratam">Vratam</option>
+                                    <option value="HomamYagam">Homam & Yagam</option>
+                                    <option value="HomePooja">Home Pooja</option>
+                                    <option value="PoojaSamagri">Pooja Samagri</option>
+                                    <option value="FamilyConnect">Family Connect</option>
                                 </select>
                             </div>
                             {errors.serviceType && (
@@ -85,9 +83,7 @@ export default function BookServicePage() {
 
                         {/* Date */}
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Date
-                            </label>
+                            <label className={styles.label}>Date</label>
                             <div className={styles.inputWrapper}>
                                 <Calendar className={styles.icon} />
                                 <input
@@ -103,9 +99,7 @@ export default function BookServicePage() {
 
                         {/* Time */}
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Time
-                            </label>
+                            <label className={styles.label}>Time</label>
                             <div className={styles.inputWrapper}>
                                 <Clock className={styles.icon} />
                                 <input
@@ -119,10 +113,7 @@ export default function BookServicePage() {
                             )}
                         </div>
 
-                        <button
-                            type="submit"
-                            className={styles.button}
-                        >
+                        <button type="submit" className={styles.button}>
                             Schedule Service
                         </button>
                     </form>

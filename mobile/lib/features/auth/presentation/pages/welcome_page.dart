@@ -15,18 +15,23 @@ class _WelcomePageState extends State<WelcomePage> {
 
   final List<OnboardingItem> _items = const [
     OnboardingItem(
+      icon: Icons.local_fire_department,
+      title: 'Homam & Yagam',
+      description: 'Sacred fire rituals performed by experienced poojaris for prosperity and well-being',
+    ),
+    OnboardingItem(
       icon: Icons.temple_hindu,
-      title: 'Book Sacred Services',
-      description: 'Connect with verified Poojaris for home rituals, Homam, Vratam and ceremonies',
+      title: 'Home Pooja',
+      description: 'Book verified priests for Satyanarayan, Griha Pravesh, and other home ceremonies',
     ),
     OnboardingItem(
       icon: Icons.shopping_bag,
-      title: 'Shop Religious Items',
-      description: 'Get authentic pooja items, idols, and sacred materials delivered to your home',
+      title: 'Pooja Samagri',
+      description: 'Authentic pooja items, idols, and sacred materials delivered to your doorstep',
     ),
     OnboardingItem(
       icon: Icons.family_restroom,
-      title: 'Join Your Family',
+      title: 'Family Connect',
       description: 'Create your household and book services together as a family',
     ),
   ];
