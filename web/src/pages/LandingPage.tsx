@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Flame, ShoppingBag, Users, Star, ArrowRight } from 'lucide-react';
+import { useAuthStore } from '../stores/authStore';
 import styles from './LandingPage.module.css';
 
 export default function LandingPage() {
+    const { isAuthenticated } = useAuthStore();
+
     return (
         <div className={styles.container}>
             {/* Header */}
@@ -12,8 +15,14 @@ export default function LandingPage() {
                     <span>Swadhrama</span>
                 </div>
                 <nav className={styles.nav}>
-                    <Link to="/login" className="btn btn-secondary">Sign In</Link>
-                    <Link to="/register" className="btn btn-primary">Get Started</Link>
+                    {isAuthenticated ? (
+                        <Link to="/dashboard" className="btn btn-primary">Dashboard</Link>
+                    ) : (
+                        <>
+                            <Link to="/login" className="btn btn-secondary">Sign In</Link>
+                            <Link to="/register" className="btn btn-primary">Get Started</Link>
+                        </>
+                    )}
                 </nav>
             </header>
 
@@ -28,7 +37,7 @@ export default function LandingPage() {
                     Connect with verified Poojaris, book home rituals, and get authentic religious items delivered to your home.
                 </p>
                 <div className={styles.heroCta}>
-                    <Link to="/book-service" className="btn btn-primary">
+                    <Link to={isAuthenticated ? "/dashboard" : "/login"} className="btn btn-primary">
                         Start Your Journey <ArrowRight size={20} />
                     </Link>
                     <Link to="#services" className="btn btn-secondary">
@@ -41,28 +50,28 @@ export default function LandingPage() {
             <section id="services" className={styles.services}>
                 <h2>Our Services</h2>
                 <div className={styles.serviceGrid}>
-                    <Link to="/book-service?type=Homam" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/book-service?type=HomamYagam" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <div className={styles.serviceIcon} style={{ background: '#fff0e6' }}>
                             <Flame color="#ff6b00" size={32} />
                         </div>
                         <h3>Homam & Yagam</h3>
                         <p>Sacred fire rituals performed by experienced poojaris for prosperity and well-being.</p>
                     </Link>
-                    <Link to="/book-service?type=Pooja" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/book-service?type=HomePooja" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <div className={styles.serviceIcon} style={{ background: '#f5e6e6' }}>
                             <Star color="#8b0000" size={32} />
                         </div>
                         <h3>Home Pooja</h3>
                         <p>Book verified priests for Satyanarayan, Griha Pravesh, and other home ceremonies.</p>
                     </Link>
-                    <Link to="/book-service?type=Pooja" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/book-service?type=PoojaSamagri" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <div className={styles.serviceIcon} style={{ background: '#e6f5e6' }}>
                             <ShoppingBag color="#28a745" size={32} />
                         </div>
                         <h3>Pooja Samagri</h3>
                         <p>Authentic pooja items, idols, and sacred materials delivered to your doorstep.</p>
                     </Link>
-                    <Link to="/book-service?type=Pooja" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/household" className={styles.serviceCard} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <div className={styles.serviceIcon} style={{ background: '#e6e6f5' }}>
                             <Users color="#6b00ff" size={32} />
                         </div>
