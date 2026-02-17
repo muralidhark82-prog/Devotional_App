@@ -1,160 +1,160 @@
-import { useState } from 'react';
-import { Calendar, Clock, MapPin, User, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calendar, Clock, MapPin, User, CheckCircle, AlertCircle, Loader, ClipboardList } from 'lucide-react';
+import { serviceRequestApi } from '../../services/api';
 import styles from './BookingsPage.module.css';
 
-type BookingStatus = 'upcoming' | 'completed' | 'cancelled';
-
-interface Booking {
-    id: string;
-    serviceType: string;
-    serviceName: string;
-    date: string;
-    time: string;
-    status: BookingStatus;
-    provider?: {
-        name: string;
-        phone: string;
-    };
-    address: string;
-}
-
-const mockBookings: Booking[] = [
-    {
-        id: '1',
-        serviceType: 'HomamYagam',
-        serviceName: 'Ganapathi Homam',
-        date: '2026-02-15',
-        time: '09:00 AM',
-        status: 'upcoming',
-        provider: { name: 'Pandit Sharma', phone: '+91 98765 43210' },
-        address: '123 Temple Street, Hyderabad',
-    },
-    {
-        id: '2',
-        serviceType: 'HomePooja',
-        serviceName: 'Satyanarayan Pooja',
-        date: '2026-02-20',
-        time: '10:30 AM',
-        status: 'upcoming',
-        provider: { name: 'Acharya Joshi', phone: '+91 98765 43211' },
-        address: '123 Temple Street, Hyderabad',
-    },
-    {
-        id: '3',
-        serviceType: 'HomePooja',
-        serviceName: 'Griha Pravesh Pooja',
-        date: '2026-01-25',
-        time: '08:00 AM',
-        status: 'completed',
-        provider: { name: 'Pandit Verma', phone: '+91 98765 43212' },
-        address: '456 New Colony, Hyderabad',
-    },
-    {
-        id: '4',
-        serviceType: 'HomamYagam',
-        serviceName: 'Navagraha Homam',
-        date: '2026-01-10',
-        time: '06:00 AM',
-        status: 'cancelled',
-        address: '123 Temple Street, Hyderabad',
-    },
-];
-
-const statusConfig = {
-    upcoming: { label: 'Upcoming', color: '#ff6b00', icon: Clock },
-    completed: { label: 'Completed', color: '#28a745', icon: CheckCircle },
-    cancelled: { label: 'Cancelled', color: '#dc3545', icon: AlertCircle },
+const SERVICE_LABELS: Record<string, string> = {
+    HomamYagam: 'Homam & Yagam',
+    HomePooja: 'Home Pooja',
+    PoojaSamagri: 'Pooja Samagri',
+    FamilyConnect: 'Family Connect',
 };
 
+type FilterStatus = 'all' | 'PENDING' | 'ACCEPTED' | 'COMPLETED';
+
+const statusConfig: Record<string, { label: string; color: string; icon: typeof CheckCircle }> = {
+    PENDING: { label: 'Pending', color: '#ff6b00', icon: Clock },
+    ACCEPTED: { label: 'Accepted', color: '#007bff', icon: User },
+    COMPLETED: { label: 'Completed', color: '#28a745', icon: CheckCircle },
+    DECLINED: { label: 'Declined', color: '#dc3545', icon: AlertCircle },
+    WITHDRAWN: { label: 'Withdrawn', color: '#6c757d', icon: AlertCircle },
+};
+
+interface ServiceRequest {
+    id: string;
+    serviceType: string;
+    date: string;
+    time: string;
+    location: string | null;
+    notes: string | null;
+    status: string;
+    provider: {
+        profile: { fullName: string } | null;
+        email: string | null;
+        phone: string | null;
+    } | null;
+}
+
 export default function BookingsPage() {
-    const [filter, setFilter] = useState<'all' | BookingStatus>('all');
+    const [filter, setFilter] = useState<FilterStatus>('all');
+    const [requests, setRequests] = useState<ServiceRequest[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredBookings = filter === 'all' 
-        ? mockBookings 
-        : mockBookings.filter(b => b.status === filter);
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const { data } = await serviceRequestApi.getAll();
+                setRequests(data.data);
+            } catch (err) {
+                console.error('Failed to fetch bookings', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetch();
+    }, []);
 
-    const formatDate = (dateStr: string) => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-IN', { 
-            weekday: 'short', 
-            day: 'numeric', 
-            month: 'short', 
-            year: 'numeric' 
+    const filteredRequests = filter === 'all'
+        ? requests
+        : requests.filter((r) => r.status === filter);
+
+    const formatDate = (dateStr: string) =>
+        new Date(dateStr).toLocaleDateString('en-IN', {
+            weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
         });
-    };
+
+    if (loading) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.emptyState}>
+                    <Loader size={32} />
+                    <p>Loading your bookings...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h1>My Bookings</h1>
-                <p className={styles.subtitle}>View and manage your bookings</p>
+                <p className={styles.subtitle}>View your service requests and their status</p>
             </div>
 
-            {/* Filter Tabs */}
             <div className={styles.filters}>
-                {(['all', 'upcoming', 'completed', 'cancelled'] as const).map((status) => (
+                {([
+                    { key: 'all', label: 'All' },
+                    { key: 'PENDING', label: 'Pending' },
+                    { key: 'ACCEPTED', label: 'Accepted' },
+                    { key: 'COMPLETED', label: 'Completed' },
+                ] as { key: FilterStatus; label: string }[]).map((tab) => (
                     <button
-                        key={status}
-                        className={`${styles.filterBtn} ${filter === status ? styles.filterBtnActive : ''}`}
-                        onClick={() => setFilter(status)}
+                        key={tab.key}
+                        className={`${styles.filterBtn} ${filter === tab.key ? styles.filterBtnActive : ''}`}
+                        onClick={() => setFilter(tab.key)}
                     >
-                        {status === 'all' ? 'All' : statusConfig[status].label}
+                        {tab.label}
                     </button>
                 ))}
             </div>
 
-            {/* Bookings List */}
             <div className={styles.bookingsList}>
-                {filteredBookings.length === 0 ? (
+                {filteredRequests.length === 0 ? (
                     <div className={styles.emptyState}>
-                        <Calendar size={48} />
+                        <ClipboardList size={48} />
                         <h3>No bookings found</h3>
-                        <p>You don't have any {filter !== 'all' ? filter : ''} bookings yet.</p>
+                        <p>You don't have any {filter !== 'all' ? filter.toLowerCase() : ''} bookings yet.</p>
                     </div>
                 ) : (
-                    filteredBookings.map((booking) => {
-                        const StatusIcon = statusConfig[booking.status].icon;
+                    filteredRequests.map((req) => {
+                        const cfg = statusConfig[req.status] || statusConfig.PENDING;
+                        const StatusIcon = cfg.icon;
                         return (
-                            <div key={booking.id} className={styles.bookingCard}>
+                            <div key={req.id} className={styles.bookingCard}>
                                 <div className={styles.bookingHeader}>
                                     <div className={styles.serviceInfo}>
-                                        <span className={styles.serviceType}>{booking.serviceType.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                        <h3>{booking.serviceName}</h3>
+                                        <span className={styles.serviceType}>
+                                            {req.serviceType.replace(/([A-Z])/g, ' $1').trim()}
+                                        </span>
+                                        <h3>{SERVICE_LABELS[req.serviceType] || req.serviceType}</h3>
                                     </div>
-                                    <div 
+                                    <div
                                         className={styles.statusBadge}
-                                        style={{ background: `${statusConfig[booking.status].color}15`, color: statusConfig[booking.status].color }}
+                                        style={{ background: `${cfg.color}15`, color: cfg.color }}
                                     >
                                         <StatusIcon size={14} />
-                                        {statusConfig[booking.status].label}
+                                        {cfg.label}
                                     </div>
                                 </div>
 
                                 <div className={styles.bookingDetails}>
                                     <div className={styles.detailItem}>
                                         <Calendar size={16} />
-                                        <span>{formatDate(booking.date)}</span>
+                                        <span>{formatDate(req.date)}</span>
                                     </div>
                                     <div className={styles.detailItem}>
                                         <Clock size={16} />
-                                        <span>{booking.time}</span>
+                                        <span>{req.time}</span>
                                     </div>
-                                    <div className={styles.detailItem}>
-                                        <MapPin size={16} />
-                                        <span>{booking.address}</span>
-                                    </div>
-                                    {booking.provider && (
+                                    {req.location && (
+                                        <div className={styles.detailItem}>
+                                            <MapPin size={16} />
+                                            <span>{req.location}</span>
+                                        </div>
+                                    )}
+                                    {req.provider && (
                                         <div className={styles.detailItem}>
                                             <User size={16} />
-                                            <span>{booking.provider.name}</span>
+                                            <span>{req.provider.profile?.fullName || 'Assigned Provider'}</span>
                                         </div>
                                     )}
                                 </div>
 
-                                {booking.status === 'upcoming' && (
+                                {req.notes && (
                                     <div className={styles.bookingActions}>
-                                        <button className={styles.rescheduleBtn}>Reschedule</button>
-                                        <button className={styles.cancelBtn}>Cancel</button>
+                                        <span style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
+                                            {req.notes}
+                                        </span>
                                     </div>
                                 )}
                             </div>

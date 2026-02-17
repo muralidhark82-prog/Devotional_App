@@ -200,6 +200,17 @@ export class UserRepository {
     }
 
     /**
+     * Find users by role
+     */
+    async findByRole(role: UserRole): Promise<User[]> {
+        const users = await prisma.user.findMany({
+            where: { role, status: UserStatus.ACTIVE },
+            include: { profile: true },
+        });
+        return users.map((u: any) => this.mapToEntity(u));
+    }
+
+    /**
      * Map Prisma model to domain entity
      */
     private mapToEntity(data: any): User {

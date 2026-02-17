@@ -12,6 +12,8 @@ class CompleteProfilePage extends StatefulWidget {
 class _CompleteProfilePageState extends State<CompleteProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _gotraController = TextEditingController();
+  final _placeOfBirthController = TextEditingController();
+  TimeOfDay? _timeOfBirth;
   String? _selectedNakshatra;
   String? _selectedRashi;
   DateTime? _dateOfBirth;
@@ -34,6 +36,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
   @override
   void dispose() {
     _gotraController.dispose();
+    _placeOfBirthController.dispose();
     super.dispose();
   }
 
@@ -94,6 +97,35 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                       _dateOfBirth != null
                           ? '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}'
                           : 'Select date',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Place of Birth
+                TextFormField(
+                  controller: _placeOfBirthController,
+                  decoration: const InputDecoration(
+                    labelText: 'Place of Birth',
+                    prefixIcon: Icon(Icons.location_on_outlined),
+                    hintText: 'e.g., Hyderabad, Varanasi',
+                  ),
+                  textCapitalization: TextCapitalization.words,
+                ),
+                const SizedBox(height: 16),
+
+                // Time of Birth
+                InkWell(
+                  onTap: _selectTimeOfBirth,
+                  child: InputDecorator(
+                    decoration: const InputDecoration(
+                      labelText: 'Time of Birth',
+                      prefixIcon: Icon(Icons.access_time),
+                    ),
+                    child: Text(
+                      _timeOfBirth != null
+                          ? _timeOfBirth!.format(context)
+                          : 'Select time',
                     ),
                   ),
                 ),
@@ -176,6 +208,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     );
     if (date != null) {
       setState(() => _dateOfBirth = date);
+    }
+  }
+
+  Future<void> _selectTimeOfBirth() async {
+    final time = await showTimePicker(
+      context: context,
+      initialTime: _timeOfBirth ?? const TimeOfDay(hour: 6, minute: 0),
+    );
+    if (time != null) {
+      setState(() => _timeOfBirth = time);
     }
   }
 

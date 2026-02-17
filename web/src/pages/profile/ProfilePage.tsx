@@ -10,6 +10,8 @@ export default function ProfilePage() {
         fullName: user?.profile?.fullName || '',
         displayName: user?.profile?.displayName || '',
         dateOfBirth: user?.profile?.dateOfBirth || '',
+        placeOfBirth: user?.profile?.placeOfBirth || '',
+        timeOfBirth: user?.profile?.timeOfBirth || '',
         gotra: user?.profile?.gotra || '',
         nakshatra: user?.profile?.nakshatra || '',
         rashi: user?.profile?.rashi || '',
@@ -38,6 +40,8 @@ export default function ProfilePage() {
             fullName: user?.profile?.fullName || '',
             displayName: user?.profile?.displayName || '',
             dateOfBirth: user?.profile?.dateOfBirth || '',
+            placeOfBirth: user?.profile?.placeOfBirth || '',
+            timeOfBirth: user?.profile?.timeOfBirth || '',
             gotra: user?.profile?.gotra || '',
             nakshatra: user?.profile?.nakshatra || '',
             rashi: user?.profile?.rashi || '',
@@ -159,6 +163,37 @@ export default function ProfilePage() {
                                         : 'Not provided'
                                     }
                                 </p>
+                            )}
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Place of Birth</label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="placeOfBirth"
+                                    value={formData.placeOfBirth}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    placeholder="Enter your place of birth"
+                                />
+                            ) : (
+                                <p className={styles.value}>{formData.placeOfBirth || 'Not provided'}</p>
+                            )}
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Time of Birth</label>
+                            {isEditing ? (
+                                <input
+                                    type="time"
+                                    name="timeOfBirth"
+                                    value={formData.timeOfBirth}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                />
+                            ) : (
+                                <p className={styles.value}>{formData.timeOfBirth || 'Not provided'}</p>
                             )}
                         </div>
                     </div>

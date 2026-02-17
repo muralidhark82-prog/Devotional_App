@@ -81,6 +81,27 @@ export const userApi = {
     updateProfile: (data: Record<string, unknown>) => api.patch('/users/me/profile', data),
 };
 
+// Service Request API
+export const serviceRequestApi = {
+    create: (data: { serviceType: string; date: string; time: string; location?: string; notes?: string }) =>
+        api.post('/service-requests', data),
+
+    getAll: () => api.get('/service-requests'),
+
+    accept: (id: string) => api.post(`/service-requests/${id}/accept`),
+
+    complete: (id: string) => api.post(`/service-requests/${id}/complete`),
+};
+
+// Notification API
+export const notificationApi = {
+    getAll: () => api.get('/notifications'),
+
+    markAsRead: (id: string) => api.post(`/notifications/${id}/read`),
+
+    markAllAsRead: () => api.post('/notifications/read-all'),
+};
+
 // Household API
 export const householdApi = {
     create: (data: { name: string; address?: Record<string, unknown> }) =>

@@ -1,0 +1,200 @@
+.container {
+    max-width: 1000px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+}
+
+.tabs {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-1);
+}
+
+.tab {
+    padding: var(--space-2) var(--space-4);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: all 0.2s;
+}
+
+.tabActive {
+    composes: tab;
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.requestList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.requestCard {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    transition: box-shadow 0.2s;
+}
+
+.requestCard:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-3);
+}
+
+.serviceName {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badgePending {
+    composes: badge;
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badgeAccepted {
+    composes: badge;
+    background: #d4edda;
+    color: #155724;
+}
+
+.badgeDeclined {
+    composes: badge;
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badgeCompleted {
+    composes: badge;
+    background: #cce5ff;
+    color: #004085;
+}
+
+.cardDetails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.detail svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.notes {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-4);
+}
+
+.cardActions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}
+
+.acceptBtn {
+    padding: var(--space-2) var(--space-4);
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.declineBtn {
+    padding: var(--space-2) var(--space-4);
+    background: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.completeBtn {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.emptyState {
+    text-align: center;
+    padding: var(--space-10);
+    color: var(--color-text-secondary);
+}
+
+.emptyState svg {
+    margin-bottom: var(--space-4);
+    color: var(--color-border);
+}
+
+@media (max-width: 768px) {
+    .cardDetails {
+        grid-template-columns: 1fr;
+    }
+
+    .cardActions {
+        flex-direction: column;
+    }
+
+    .acceptBtn,
+    .declineBtn,
+    .completeBtn {
+        justify-content: center;
+    }
+}

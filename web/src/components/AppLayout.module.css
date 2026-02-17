@@ -313,3 +313,120 @@
         min-width: 220px;
     }
 }
+
+/* Notifications */
+.notifWrapper {
+    position: relative;
+}
+
+.notifBadge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #dc3545;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    padding: 0 4px;
+}
+
+.notifDropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: var(--space-2);
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 340px;
+    z-index: 200;
+    overflow: hidden;
+}
+
+.notifHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.markAllRead {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.notifList {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.notifItem,
+.notifItemUnread {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.notifItem:hover,
+.notifItemUnread:hover {
+    background: var(--color-surface);
+}
+
+.notifItemUnread {
+    background: #fff8f0;
+    border-left: 3px solid var(--color-primary);
+}
+
+.notifItem:last-child,
+.notifItemUnread:last-child {
+    border-bottom: none;
+}
+
+.notifTitle {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--color-text-primary);
+    margin-bottom: 2px;
+}
+
+.notifMessage {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+.notifTime {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+    opacity: 0.7;
+}
+
+.notifEmpty {
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .notifDropdown {
+        width: 300px;
+        right: -60px;
+    }
+}

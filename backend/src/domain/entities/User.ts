@@ -23,6 +23,8 @@ export interface UserProfile {
     displayName: string | null;
     avatarUrl: string | null;
     dateOfBirth: Date | null;
+    placeOfBirth: string | null;
+    timeOfBirth: string | null;
     gotra: string | null;
     nakshatra: string | null;
     rashi: string | null;
