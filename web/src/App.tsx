@@ -6,6 +6,7 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 import HouseholdPage from './pages/household/HouseholdPage';
 import BookServicePage from './pages/BookServicePage';
 import BookingsPage from './pages/bookings/BookingsPage';
+import TempleVisitsPage from './pages/temple-visits/TempleVisitsPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AppLayout from './components/AppLayout';
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/household" element={<HouseholdPage />} />
                 <Route path="/book-service" element={<BookServicePage />} />
                 <Route path="/bookings" element={<BookingsPage />} />
+                <Route path="/temple-visits" element={<TempleVisitsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
             </Route>
         </Routes>

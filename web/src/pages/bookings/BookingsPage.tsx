@@ -87,7 +87,7 @@ export default function BookingsPage() {
         <div className={styles.container}>
             <div className={styles.header}>
                 <h1>My Bookings</h1>
-                <p className={styles.subtitle}>View and manage your service bookings</p>
+                <p className={styles.subtitle}>View and manage your bookings</p>
             </div>
 
             {/* Filter Tabs */}

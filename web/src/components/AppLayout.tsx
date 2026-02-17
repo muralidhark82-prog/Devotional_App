@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Home, Flame, ShoppingBag, Calendar, User, Bell, LogOut, Users, Menu, X } from 'lucide-react';
+import { Home, Flame, ShoppingBag, Calendar, User, Bell, LogOut, Users, Menu, X, Landmark } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import styles from './AppLayout.module.css';
 
@@ -19,8 +19,9 @@ export default function AppLayout() {
     const navItems = [
         { path: '/dashboard', icon: Home, label: 'Dashboard' },
         { path: '/book-service', icon: Flame, label: 'Services' },
-        { path: '/shop', icon: ShoppingBag, label: 'Shop' },
-        { path: '/bookings', icon: Calendar, label: 'Bookings' },
+        { path: '/shop', icon: ShoppingBag, label: 'Pooja Store' },
+        { path: '/bookings', icon: Calendar, label: 'My Bookings' },
+        { path: '/temple-visits', icon: Landmark, label: 'Temple Visits' },
         { path: '/household', icon: Users, label: 'Household' },
         { path: '/profile', icon: User, label: 'Profile' },
     ];
@@ -42,7 +43,7 @@ export default function AppLayout() {
                                 loop 
                                 muted 
                                 playsInline
-                                style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px' }}
+                                style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '8px' }}
                             >
                                 <source src="/assets/videos/Homam.mp4" type="video/mp4" />
                             </video>
@@ -90,7 +91,7 @@ export default function AppLayout() {
                                 loop 
                                 muted 
                                 playsInline
-                                style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px' }}
+                                style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '8px' }}
                             >
                                 <source src="/assets/videos/Homam.mp4" type="video/mp4" />
                             </video>

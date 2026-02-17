@@ -167,6 +167,27 @@ input, select, textarea {
   box-shadow: var(--shadow-md);
 }
 
+/* Mobile Global */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.1rem; }
+
+  .btn {
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+}
+
 .gradient-text {
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;

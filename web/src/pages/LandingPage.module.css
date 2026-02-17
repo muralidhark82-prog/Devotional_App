@@ -177,11 +177,76 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    .logo .logoIcon video {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav {
+        gap: var(--space-2);
+    }
+
+    .nav .btn {
+        padding: var(--space-2) var(--space-4);
+        font-size: 0.875rem;
+    }
+
     .heroTitle {
         font-size: 2rem;
     }
 
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+
+    .heroCta {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .heroCta .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .hero {
+        padding: var(--space-8) var(--space-4);
+    }
+
+    .serviceGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .services h2 {
+        font-size: 1.5rem;
+    }
+
     .stats {
         gap: var(--space-6);
+        padding: var(--space-8) var(--space-4);
+    }
+
+    .statNumber {
+        font-size: 2rem;
+    }
+
+    .footerLinks {
+        flex-wrap: wrap;
+        gap: var(--space-4);
+    }
+
+    .footerBrand .logoIcon video {
+        width: 40px;
+        height: 40px;
     }
 }

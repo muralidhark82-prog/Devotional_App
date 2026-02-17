@@ -246,6 +246,8 @@
     .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+        width: 280px;
+        padding: var(--space-4);
     }
 
     .sidebarOpen {
@@ -273,6 +275,7 @@
 
     .header {
         justify-content: space-between;
+        padding: var(--space-3) var(--space-4);
     }
 
     .mobileMenuBtn {
@@ -285,7 +288,28 @@
         display: flex;
     }
 
+    .mobileLogo .logoIcon video {
+        width: 36px;
+        height: 36px;
+    }
+
+    .navItem,
+    .navItemActive {
+        padding: var(--space-3);
+        font-size: 0.95rem;
+        min-height: 44px;
+    }
+
+    .logoutBtn {
+        min-height: 44px;
+    }
+
     .content {
-        padding: var(--space-4);
+        padding: var(--space-3);
+    }
+
+    .profileMenu {
+        right: -8px;
+        min-width: 220px;
     }
 }

@@ -17,7 +17,7 @@ export default function LandingPage() {
                             loop 
                             muted 
                             playsInline
-                            style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px' }}
+                            style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '8px' }}
                         >
                             <source src="/assets/videos/Homam.mp4" type="video/mp4" />
                         </video>
@@ -121,7 +121,7 @@ export default function LandingPage() {
                                 loop 
                                 muted 
                                 playsInline
-                                style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '4px' }}
+                                style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '8px' }}
                             >
                                 <source src="/assets/videos/Homam.mp4" type="video/mp4" />
                             </video>

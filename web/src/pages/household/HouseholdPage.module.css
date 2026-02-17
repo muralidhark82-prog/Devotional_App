@@ -219,3 +219,36 @@
     border-radius: var(--radius-md);
     cursor: pointer;
 }
+
+
+/* Mobile */
+@media (max-width: 768px) {
+    .pageHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .householdCard {
+        padding: var(--space-4);
+    }
+
+    .householdHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .section {
+        padding: var(--space-4);
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+
+    .memberCard {
+        flex-wrap: wrap;
+    }
+}

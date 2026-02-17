@@ -77,7 +77,7 @@ export default function RegisterPage() {
                             loop 
                             muted 
                             playsInline
-                            style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }}
+                            style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '8px' }}
                         >
                             <source src="/assets/videos/Homam.mp4" type="video/mp4" />
                         </video>
