@@ -59,23 +59,21 @@ export class RegisterUseCase {
             role: input.role as any,
         });
 
-        // Send OTP for verification
-        const verificationChannel = input.email ? 'email' : 'phone';
-        const contact = input.email || input.phone!;
-
-        const otp = await this.otpRepository.create(contact, OtpPurpose.REGISTRATION, user.id);
-
-        // TODO: Send OTP via email/SMS service
-        console.log(`[DEV] OTP for ${contact}: ${otp}`);
+        // Auto-verify user (no OTP service configured yet)
+        if (input.email) {
+            await this.userRepository.markEmailVerified(user.id);
+        } else if (input.phone) {
+            await this.userRepository.markPhoneVerified(user.id);
+        }
 
         return {
             userId: user.id,
             email: user.email,
             phone: user.phone,
             role: user.role,
-            status: user.status,
-            verificationRequired: true,
-            verificationChannel,
+            status: 'ACTIVE',
+            verificationRequired: false,
+            verificationChannel: input.email ? 'email' : 'phone',
         };
     }
 }
