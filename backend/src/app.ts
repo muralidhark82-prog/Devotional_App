@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import { config } from './config';
-import { authRoutes, userRoutes, householdRoutes, inviteRoutes, serviceRequestRoutes, notificationRoutes } from './interfaces/routes';
+import { authRoutes, userRoutes, householdRoutes, inviteRoutes, serviceRequestRoutes, notificationRoutes, adminRoutes } from './interfaces/routes';
 import { errorHandler, notFoundHandler } from './interfaces/middleware';
 
 const app = express();
@@ -64,6 +64,7 @@ app.use(`${apiPrefix}/households`, householdRoutes);
 app.use(`${apiPrefix}/invites`, inviteRoutes);
 app.use(`${apiPrefix}/service-requests`, serviceRequestRoutes);
 app.use(`${apiPrefix}/notifications`, notificationRoutes);
+app.use(`${apiPrefix}/admin`, adminRoutes);
 
 // Error handling
 app.use(notFoundHandler);

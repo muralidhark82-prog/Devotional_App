@@ -4,3 +4,4 @@ export { default as householdRoutes } from './household.routes';
 export { default as inviteRoutes } from './invite.routes';
 export { default as serviceRequestRoutes } from './service-request.routes';
 export { default as notificationRoutes } from './notification.routes';
+export { default as adminRoutes } from './admin.routes';

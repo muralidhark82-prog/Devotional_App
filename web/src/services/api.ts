@@ -102,6 +102,22 @@ export const notificationApi = {
     markAllAsRead: () => api.post('/notifications/read-all'),
 };
 
+// Admin API
+export const adminApi = {
+    getUsers: (params?: { role?: string; status?: string; search?: string }) =>
+        api.get('/admin/users', { params }),
+
+    updateUserStatus: (id: string, status: string) =>
+        api.patch(`/admin/users/${id}/status`, { status }),
+
+    updateUserRole: (id: string, role: string) =>
+        api.patch(`/admin/users/${id}/role`, { role }),
+
+    deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
+
+    getStats: () => api.get('/admin/stats'),
+};
+
 // Household API
 export const householdApi = {
     create: (data: { name: string; address?: Record<string, unknown> }) =>

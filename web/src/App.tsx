@@ -10,6 +10,7 @@ import BookingsPage from './pages/bookings/BookingsPage';
 import TempleVisitsPage from './pages/temple-visits/TempleVisitsPage';
 import ServiceRequestsPage from './pages/service-requests/ServiceRequestsPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import AdminPage from './pages/admin/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AppLayout from './components/AppLayout';
 
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/temple-visits" element={<TempleVisitsPage />} />
                 <Route path="/service-requests" element={<ServiceRequestsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/admin" element={<AdminPage />} />
             </Route>
         </Routes>
     );

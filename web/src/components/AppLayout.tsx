@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
-import { Home, Flame, ShoppingBag, Calendar, User, Bell, LogOut, Users, Menu, X, Landmark, ClipboardList } from 'lucide-react';
+import { Home, Flame, ShoppingBag, Calendar, User, Bell, LogOut, Users, Menu, X, Landmark, ClipboardList, Shield } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { notificationApi } from '../services/api';
 import styles from './AppLayout.module.css';
@@ -103,7 +103,14 @@ export default function AppLayout() {
         { path: '/profile', icon: User, label: 'Profile' },
     ];
 
-    const navItems = user?.role === 'PROVIDER' ? providerNavItems : memberNavItems;
+    const adminNavItems = [
+        { path: '/admin', icon: Shield, label: 'Admin Panel' },
+        { path: '/dashboard', icon: Home, label: 'Dashboard' },
+        { path: '/service-requests', icon: ClipboardList, label: 'Service Requests' },
+        { path: '/profile', icon: User, label: 'Profile' },
+    ];
+
+    const navItems = user?.role === 'ADMIN' ? adminNavItems : user?.role === 'PROVIDER' ? providerNavItems : memberNavItems;
 
     const timeAgo = (dateStr: string) => {
         const diff = Date.now() - new Date(dateStr).getTime();
