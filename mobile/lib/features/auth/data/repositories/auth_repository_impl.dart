@@ -27,7 +27,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -53,7 +54,8 @@ class AuthRepositoryImpl implements AuthRepository {
         verificationChannel: response['verificationChannel'] ?? 'email',
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -71,7 +73,8 @@ class AuthRepositoryImpl implements AuthRepository {
         email: response['user']['email'],
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -81,7 +84,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await remoteDataSource.sendOtp(contact, purpose);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -93,7 +97,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.clearTokens();
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -108,7 +113,8 @@ class AuthRepositoryImpl implements AuthRepository {
         refreshToken: response['refreshToken'],
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 }

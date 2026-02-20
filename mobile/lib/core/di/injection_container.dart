@@ -24,7 +24,7 @@ Future<void> init() async {
   // Dio
   sl.registerLazySingleton(() {
     final dio = Dio(BaseOptions(
-      baseUrl: 'http://10.0.2.2:3100/api/v1',
+      baseUrl: 'https://swadhrama-api.onrender.com/api/v1',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: {'Content-Type': 'application/json'},

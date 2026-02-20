@@ -41,6 +41,9 @@ dependencies:
   intl: any
   uuid: ^4.2.2
 
+  # Video
+  video_player: ^2.8.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,3 +58,4 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/videos/

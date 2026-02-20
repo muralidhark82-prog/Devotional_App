@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Center(
-                        child: Text('ॐ', style: TextStyle(fontSize: 40, color: AppTheme.primaryColor)),
+                        child: Icon(Icons.local_fire_department, size: 44, color: AppTheme.primaryColor),
                       ),
                     ),
                     const SizedBox(height: 32),

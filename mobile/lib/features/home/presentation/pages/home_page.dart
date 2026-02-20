@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Center(
-                      child: Text('ॐ', style: TextStyle(fontSize: 20, color: AppTheme.primaryColor)),
+                      child: Icon(Icons.local_fire_department, size: 22, color: AppTheme.primaryColor),
                     ),
                   ),
                   const SizedBox(width: 8),
