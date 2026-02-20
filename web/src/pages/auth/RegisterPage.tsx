@@ -57,8 +57,9 @@ export default function RegisterPage() {
             });
 
             if (response.data.success) {
-                // Navigate to OTP verification
-                navigate('/login'); // TODO: Navigate to OTP verification
+                const { verificationChannel } = response.data.data;
+                const contact = verificationChannel === 'email' ? (data.email || '') : (`+91${data.phone}` || '');
+                navigate(`/verify-otp?contact=${encodeURIComponent(contact)}&purpose=registration`);
             }
         } catch (err: any) {
             setError(err.response?.data?.error?.message || 'Registration failed');

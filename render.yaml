@@ -41,3 +41,11 @@ services:
         value: 100
       - key: CORS_ORIGIN
         value: https://swadhrama.vercel.app
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false

@@ -14,6 +14,7 @@ import {
     OtpRepository,
     TokenRepository
 } from '../../infrastructure/repositories';
+import { EmailService } from '../../infrastructure/services/EmailService';
 
 const router = Router();
 
@@ -126,8 +127,13 @@ router.post(
 
             const otp = await otpRepository.create(contact, purpose.toUpperCase());
 
-            // TODO: Send via SMS/Email
-            console.log(`[DEV] OTP for ${contact}: ${otp}`);
+            // Send OTP via email if contact is email
+            if (contact.includes('@')) {
+                await EmailService.sendOtp(contact, otp, purpose.toUpperCase());
+            } else {
+                // TODO: Send via SMS
+                console.log(`[DEV] OTP for ${contact}: ${otp}`);
+            }
 
             res.json({
                 success: true,

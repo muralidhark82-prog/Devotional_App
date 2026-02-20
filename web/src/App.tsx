@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import OtpVerificationPage from './pages/auth/OtpVerificationPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import HouseholdPage from './pages/household/HouseholdPage';
 import BookServicePage from './pages/BookServicePage';
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/verify-otp" element={<OtpVerificationPage />} />
 
             {/* Protected routes with sidebar layout */}
             <Route

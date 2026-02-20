@@ -2,6 +2,7 @@ import { UserRepository } from '../../../infrastructure/repositories/UserReposit
 import { OtpRepository, OtpPurpose } from '../../../infrastructure/repositories/OtpRepository';
 import { TokenRepository } from '../../../infrastructure/repositories/TokenRepository';
 import { AuthService } from '../../../infrastructure/services/AuthService';
+import { EmailService } from '../../../infrastructure/services/EmailService';
 import { CreateUserData, User, UserStatus, AuthenticatedUser } from '../../../domain/entities';
 
 export interface RegisterInput {
@@ -59,11 +60,18 @@ export class RegisterUseCase {
             role: input.role as any,
         });
 
-        // Auto-verify user (no OTP service configured yet)
+        // Generate and send OTP
+        const verificationChannel = input.email ? 'email' : 'phone';
+        const contact = input.email || input.phone!;
+
+        const otp = await this.otpRepository.create(contact, OtpPurpose.REGISTRATION, user.id);
+
+        // Send OTP via email
         if (input.email) {
-            await this.userRepository.markEmailVerified(user.id);
-        } else if (input.phone) {
-            await this.userRepository.markPhoneVerified(user.id);
+            await EmailService.sendOtp(input.email, otp, 'REGISTRATION');
+        } else {
+            // TODO: Send OTP via SMS
+            console.log(`[DEV] OTP for ${contact}: ${otp}`);
         }
 
         return {
@@ -71,9 +79,9 @@ export class RegisterUseCase {
             email: user.email,
             phone: user.phone,
             role: user.role,
-            status: 'ACTIVE',
-            verificationRequired: false,
-            verificationChannel: input.email ? 'email' : 'phone',
+            status: user.status,
+            verificationRequired: true,
+            verificationChannel,
         };
     }
 }
