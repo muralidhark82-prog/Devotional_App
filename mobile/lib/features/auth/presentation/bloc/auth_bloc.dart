@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../core/di/injection_container.dart' as di;
+import '../../../../core/network/api_client.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
 
@@ -73,11 +75,20 @@ class AuthLoading extends AuthState {}
 class AuthSuccess extends AuthState {
   final String userId;
   final String? accessToken;
+  final String role;
+  final String fullName;
+  final String? email;
 
-  AuthSuccess({required this.userId, this.accessToken});
+  AuthSuccess({
+    required this.userId,
+    this.accessToken,
+    this.role = 'MEMBER',
+    this.fullName = '',
+    this.email,
+  });
 
   @override
-  List<Object?> get props => [userId, accessToken];
+  List<Object?> get props => [userId, accessToken, role, fullName, email];
 }
 
 class AuthNeedsVerification extends AuthState {
@@ -112,6 +123,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
     on<VerifyOtpRequested>(_onVerifyOtpRequested);
+    on<ResendOtpRequested>(_onResendOtpRequested);
     on<LogoutRequested>(_onLogoutRequested);
   }
 
@@ -124,7 +136,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       result.fold(
         (failure) => emit(AuthFailure(message: failure.message, code: failure.code)),
-        (auth) => emit(AuthSuccess(userId: auth.userId, accessToken: auth.accessToken)),
+        (auth) {
+          di.sl<ApiClient>().setAccessToken(auth.accessToken);
+          emit(AuthSuccess(
+            userId: auth.userId,
+            accessToken: auth.accessToken,
+            role: auth.role,
+            fullName: auth.fullName,
+            email: auth.email,
+          ));
+        },
       );
     } catch (e) {
       emit(AuthFailure(message: 'An unexpected error occurred'));
@@ -155,14 +176,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onVerifyOtpRequested(VerifyOtpRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    // TODO: Implement OTP verification via repository
-    await Future.delayed(const Duration(seconds: 1));
-    emit(AuthSuccess(userId: 'temp-user-id'));
+    try {
+      final result = await loginUseCase.repository.verifyOtp(event.contact, event.otp, event.purpose);
+      result.fold(
+        (failure) => emit(AuthFailure(message: failure.message, code: failure.code)),
+        (auth) {
+          di.sl<ApiClient>().setAccessToken(auth.accessToken);
+          emit(AuthSuccess(
+            userId: auth.userId,
+            accessToken: auth.accessToken,
+            role: auth.role,
+            fullName: auth.fullName,
+            email: auth.email,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(AuthFailure(message: 'Verification failed'));
+    }
+  }
+
+  Future<void> _onResendOtpRequested(ResendOtpRequested event, Emitter<AuthState> emit) async {
+    try {
+      await loginUseCase.repository.sendOtp(event.contact, 'registration');
+    } catch (_) {
+      // Silently fail — user can retry
+    }
   }
 
   Future<void> _onLogoutRequested(LogoutRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    // TODO: Clear tokens and logout
+    di.sl<ApiClient>().setAccessToken(null);
     emit(AuthInitial());
   }
 }

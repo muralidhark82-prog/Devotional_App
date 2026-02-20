@@ -2,6 +2,7 @@ import { UserRepository } from '../../../infrastructure/repositories/UserReposit
 import { OtpRepository, OtpPurpose } from '../../../infrastructure/repositories/OtpRepository';
 import { TokenRepository } from '../../../infrastructure/repositories/TokenRepository';
 import { AuthService } from '../../../infrastructure/services/AuthService';
+import { EmailService } from '../../../infrastructure/services/EmailService';
 import { CreateUserData, User, UserStatus, AuthenticatedUser } from '../../../domain/entities';
 
 export interface RegisterInput {
@@ -59,14 +60,19 @@ export class RegisterUseCase {
             role: input.role as any,
         });
 
-        // Send OTP for verification
+        // Generate and send OTP
         const verificationChannel = input.email ? 'email' : 'phone';
         const contact = input.email || input.phone!;
 
         const otp = await this.otpRepository.create(contact, OtpPurpose.REGISTRATION, user.id);
 
-        // TODO: Send OTP via email/SMS service
-        console.log(`[DEV] OTP for ${contact}: ${otp}`);
+        // Send OTP via email
+        if (input.email) {
+            await EmailService.sendOtp(input.email, otp, 'REGISTRATION');
+        } else {
+            // TODO: Send OTP via SMS
+            console.log(`[DEV] OTP for ${contact}: ${otp}`);
+        }
 
         return {
             userId: user.id,

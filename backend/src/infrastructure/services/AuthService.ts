@@ -36,13 +36,13 @@ export class AuthService {
         const accessToken = jwt.sign(
             { sub: userId, role, jti },
             config.jwt.accessSecret,
-            { expiresIn: config.jwt.accessExpiry }
+            { expiresIn: config.jwt.accessExpiry as any }
         );
 
         const refreshToken = jwt.sign(
             { sub: userId, role, jti, type: 'refresh' },
             config.jwt.refreshSecret,
-            { expiresIn: config.jwt.refreshExpiry }
+            { expiresIn: config.jwt.refreshExpiry as any }
         );
 
         // Parse expiry to seconds

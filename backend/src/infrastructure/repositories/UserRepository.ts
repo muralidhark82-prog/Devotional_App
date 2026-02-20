@@ -235,6 +235,8 @@ export class UserRepository {
                 displayName: data.profile.displayName,
                 avatarUrl: data.profile.avatarUrl,
                 dateOfBirth: data.profile.dateOfBirth,
+                placeOfBirth: data.profile.placeOfBirth,
+                timeOfBirth: data.profile.timeOfBirth,
                 gotra: data.profile.gotra,
                 nakshatra: data.profile.nakshatra,
                 rashi: data.profile.rashi,

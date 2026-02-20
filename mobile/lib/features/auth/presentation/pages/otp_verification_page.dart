@@ -67,7 +67,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.go('/complete-profile');
+            context.go('/home');
           } else if (state is AuthFailure) {
             for (final c in _controllers) c.clear();
             _focusNodes[0].requestFocus();

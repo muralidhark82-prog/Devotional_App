@@ -17,13 +17,18 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await remoteDataSource.login(identifier, password);
       await localDataSource.saveTokens(response['accessToken'], response['refreshToken']);
-      return Right(AuthResult(
+      final result = AuthResult(
         userId: response['user']['id'],
         accessToken: response['accessToken'],
         refreshToken: response['refreshToken'],
-      ));
+        role: response['user']['role'] ?? 'MEMBER',
+        fullName: response['user']['profile']?['fullName'] ?? '',
+        email: response['user']['email'],
+      );
+      return Right(result);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -49,7 +54,8 @@ class AuthRepositoryImpl implements AuthRepository {
         verificationChannel: response['verificationChannel'] ?? 'email',
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -62,9 +68,13 @@ class AuthRepositoryImpl implements AuthRepository {
         userId: response['user']['id'],
         accessToken: response['accessToken'],
         refreshToken: response['refreshToken'],
+        role: response['user']['role'] ?? 'MEMBER',
+        fullName: response['user']['profile']?['fullName'] ?? '',
+        email: response['user']['email'],
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -74,7 +84,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await remoteDataSource.sendOtp(contact, purpose);
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -86,7 +97,8 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.clearTokens();
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 
@@ -101,7 +113,8 @@ class AuthRepositoryImpl implements AuthRepository {
         refreshToken: response['refreshToken'],
       ));
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      return Left(ServerFailure(message: msg));
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/welcome_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
@@ -8,6 +7,7 @@ import '../../features/auth/presentation/pages/otp_verification_page.dart';
 import '../../features/auth/presentation/pages/complete_profile_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/household/presentation/pages/household_page.dart';
+import '../../features/notifications/presentation/pages/notifications_page.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -55,6 +55,11 @@ class AppRouter {
         path: '/household',
         name: 'household',
         builder: (context, state) => const HouseholdPage(),
+      ),
+      GoRoute(
+        path: '/notifications',
+        name: 'notifications',
+        builder: (context, state) => const NotificationsPage(),
       ),
     ],
   );

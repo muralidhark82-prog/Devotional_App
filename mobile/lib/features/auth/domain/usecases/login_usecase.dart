@@ -13,8 +13,18 @@ class AuthResult {
   final String userId;
   final String accessToken;
   final String refreshToken;
+  final String role;
+  final String fullName;
+  final String? email;
 
-  AuthResult({required this.userId, required this.accessToken, required this.refreshToken});
+  AuthResult({
+    required this.userId,
+    required this.accessToken,
+    required this.refreshToken,
+    this.role = 'MEMBER',
+    this.fullName = '',
+    this.email,
+  });
 }
 
 class LoginUseCase {

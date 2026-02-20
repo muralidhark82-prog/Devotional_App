@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/api_client.dart';
+import '../network/service_api.dart';
 import '../../features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../features/auth/data/datasources/auth_local_datasource.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
@@ -23,7 +24,7 @@ Future<void> init() async {
   // Dio
   sl.registerLazySingleton(() {
     final dio = Dio(BaseOptions(
-      baseUrl: 'http://localhost:3000/api/v1',
+      baseUrl: 'https://swadhrama-api.onrender.com/api/v1',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: {'Content-Type': 'application/json'},
@@ -34,6 +35,10 @@ Future<void> init() async {
 
   // API Client
   sl.registerLazySingleton(() => ApiClient(sl()));
+
+  // Service APIs
+  sl.registerLazySingleton(() => ServiceRequestApi(sl<ApiClient>()));
+  sl.registerLazySingleton(() => NotificationApi(sl<ApiClient>()));
 
   // Data sources
   sl.registerLazySingleton<AuthRemoteDataSource>(

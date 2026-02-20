@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
+import OtpVerificationPage from './pages/auth/OtpVerificationPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import HouseholdPage from './pages/household/HouseholdPage';
 import BookServicePage from './pages/BookServicePage';
@@ -9,6 +10,7 @@ import BookingsPage from './pages/bookings/BookingsPage';
 import TempleVisitsPage from './pages/temple-visits/TempleVisitsPage';
 import ServiceRequestsPage from './pages/service-requests/ServiceRequestsPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import AdminPage from './pages/admin/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AppLayout from './components/AppLayout';
 
@@ -19,6 +21,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/verify-otp" element={<OtpVerificationPage />} />
 
             {/* Protected routes with sidebar layout */}
             <Route
@@ -35,6 +38,7 @@ function App() {
                 <Route path="/temple-visits" element={<TempleVisitsPage />} />
                 <Route path="/service-requests" element={<ServiceRequestsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/admin" element={<AdminPage />} />
             </Route>
         </Routes>
     );

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
 const api = axios.create({
-    baseURL: '/api/v1',
+    baseURL: import.meta.env.VITE_API_URL || '/api/v1',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -33,7 +33,7 @@ api.interceptors.response.use(
 
             if (refreshToken) {
                 try {
-                    const { data } = await axios.post('/api/v1/auth/refresh', { refreshToken });
+                    const { data } = await axios.post(`${import.meta.env.VITE_API_URL || '/api/v1'}/auth/refresh`, { refreshToken });
 
                     if (data.success) {
                         const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data;
@@ -100,6 +100,22 @@ export const notificationApi = {
     markAsRead: (id: string) => api.post(`/notifications/${id}/read`),
 
     markAllAsRead: () => api.post('/notifications/read-all'),
+};
+
+// Admin API
+export const adminApi = {
+    getUsers: (params?: { role?: string; status?: string; search?: string }) =>
+        api.get('/admin/users', { params }),
+
+    updateUserStatus: (id: string, status: string) =>
+        api.patch(`/admin/users/${id}/status`, { status }),
+
+    updateUserRole: (id: string, role: string) =>
+        api.patch(`/admin/users/${id}/role`, { role }),
+
+    deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
+
+    getStats: () => api.get('/admin/stats'),
 };
 
 // Household API
